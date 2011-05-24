@@ -1,0 +1,96 @@
+     Changes between the PHP 4 and PHP 5 versions of the OCI8 Class
+                Document last updated on 07-Aug-2010
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As PHP 4 has no longer any support from the core PHP development team it was
+time to leave that code base and rewrite the class to support the OO features
+PHP 5.x provides.
+
+So in 2010 I've decided to rewrite the db_oci8 class from scratch and create
+a PHP5 only version from it. I've tried to write the PHP5 class in a way so
+that you simply overwrite the old PHP4 class with the new one and everything
+should be working as before.
+
+However there are indeed some changes necessary, but these changes are
+mainly focused on the handling of defines. Some methods support now additional
+parameters to honor new functionality introduced with PHP 5.x.
+
+In the PHP4 version multiple defines where set in the class to allow handling
+of debugging flags and also give the possibility to handle array positions via
+defines.
+In PHP5, these defines are now constants and therefor you have to rewrite your
+code whenever you access these defines, as these constants are now part of the
+db_oci8 namespace.
+
+Here's a list of defines that you have to rewrite to let the PHP5 class work:
+
+
+Old PHP 4 Define             | New PHP 5 class constant
+-----------------------------+-----------------------------------------------
+DBOF_DEBUGOFF                | db_oci8::DBOF_DEBUGOFF
+DBOF_DEBUGSCREEN             | db_oci8::DBOF_DEBUGSCREEN
+DBOF_DEBUGFILE               | db_oci8::DBOF_DEBUGFILE
+                             |
+DBOF_COLNAME                 | db_oci8::DBOF_COLNAME
+DBOF_COLTYPE                 | db_oci8::DBOF_COLTYPE
+DBOF_COLSIZE                 | db_oci8::DBOF_COLSIZE
+DBOF_COLPREC                 | db_oci8::DBOF_COLPREC
+                             |
+DBOF_CACHE_QUERY             | db_oci8::DBOF_CACHE_QUERY
+DBOF_CACHE_STATEMENT         | db_oci8::DBOF_CACHE_STATEMENT
+                             |
+DBOF_SHOW_NO_ERRORS          | db_oci8::DBOF_SHOW_NO_ERRORS
+DBOF_SHOW_ALL_ERRORS         | db_oci8::DBOF_SHOW_ALL_ERRORS
+DBOF_RETURN_ALL_ERRORS       | db_oci8::DBOF_RETURN_ALL_ERRORS
+-----------------------------^-----------------------------------------------
+
+This change requires to have two different dbdefs.inc.php copies available
+if you plan to support both PHP 4 and PHP 5 in your projects.
+
+The reason for this is the possibility to setup a default DB_ERRORMODE value
+either via the PHP 4 defines "DBOF_SHOW_NO_ERRORS", "DBOF_SHOW_ALL_ERRORS" and
+"DBOF_RETURN_ALL_ERRORS" when working with the PHP 4 interpreter or to use the
+class constants when working under PHP 5.
+
+You can of course write a small wrapper which setup your own defines and take
+the values either from the PHP 4 defines or the PHP 5 class constants, this is
+up to you. An example how this could be implemented can be found in the
+provided example code under examples/functions.inc.php.
+
+
+Other important changes between PHP 4 and PHP 5 versions:
+
+- You cannot use any more bind variables for methods Query(), QueryResult()
+  and Execute(). The PHP 5 class will die() with an appropiate error message
+  if you try to pass bind variables to these methods! Please ALWAYS use the
+  QueryHash(), QueryResultHash() or ExecuteHash() methods if you want to
+  use bind variables, which is recommended anyway!
+
+  Reason for this change is simple: The old way of trying to determine
+  bind variables was not very stable and could lead to errors, which are
+  hard to track. The *Hash() methods bind your variables directly from the
+  passed associative array, which is less error-prone and also much faster.
+
+- Some methods are declared as private! If you have used these methods
+  before in your own code, you will now get error messages. These private
+  declarations are necessary to protect internal class variables and you
+  shouldn't have to use them before in the PHP 4 class anyway! :)
+
+- The PHP 5 class has a new method called "SetModuleAction()", which is
+  called from the Connect() method to register the application name to
+  Oracle. This method is not part of the PHP 4 class! If necessary I
+  can backport this method, however I would like to stop further
+  development of the PHP 4 class, so this will be done only if public
+  interest is high enough.
+
+These points should cover the changes between the two class versions, I did
+not notice any further problems when switching between the two classes.
+The examples are fully working with both classes, see the file
+"examples/functions.inc.php" to have an example how to add both classes
+and include them conditionally based on the used PHP version.
+
+Keep up the coding!
+
+Sascha 'SieGeL' Pfalz
+-----------------------------------------------------------------------------
+$Id: PHP4_PHP5_changes.txt,v 1.1 2010/08/07 13:00:38 siegel Exp $

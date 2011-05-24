@@ -1,0 +1,59 @@
+                  Overview of supplied examples
+                   Last updated on 07-Aug-2010
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To use these examples configure first the file dbdefs.inc.php to meet
+your setup! All examples are refering this file and connect to the
+database described in this file.
+
+Please also note that all examples assume to be working on the SCOTT
+example schema that Oracle provides! If you do not have installed this
+example schema you cannot use these examples!
+
+You can find the installation script for the SCOTT example schema under
+$ORACLE_HOME/rdbms/admin/utlsampl.sql
+
+All examples can be used both inside a browser or on command line.
+
+List of files and what they show:
+
+functions.inc.php       - Some functions used by all examples here.
+
+php_logo.gif            - Gif graphics used to load into DB by the
+                          "test_save_blob.php" script.
+
+README.FIRST            - The textfile you are currently reading ;)
+
+testall.sh              - Small bash script to call test scripts
+
+test_desctable.php      - Show the DescTable() method.
+
+test_dml.php            - Shows DML commands with the class methods.
+
+test_general.php        - Various tests and a list of all defined methods
+
+test_inout_vars.php     - Shows how to use IN/OUT variables to call
+                          PL/SQL procedures. A sample procedure will
+                          be created by this script automatically.
+
+test_prep_execute.php   - Shows how to use Prepare()/ExecuteHash()
+
+test_query.php          - Shows the Query() method.
+
+test_queryresult.php    - Shows the QueryResult() method.
+
+test_save_blob.php      - Shows how to use the SaveBLOB.php method.
+
+
+NOTE:
+
+Some scripts create new objects when executed, these objects are not
+automatically dropped to give you a chance to check the results. To drop
+all auto-created objects, perform the following statement:
+
+SQL> DROP PROCEDURE OCIADD;
+
+(Created by the test_inout_vars.php script)
+
+-----------------------------------------------------------------[EOF]-------
+$Id: README.FIRST,v 1.6 2010/08/07 13:12:41 siegel Exp $

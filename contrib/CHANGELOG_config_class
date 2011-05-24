@@ -1,0 +1,23 @@
+APPLICATION=oci8_config_class - PHP class provides permanent configuration storage in Oracle.
+
+V0.10 (13-Jan-2009) - The table and procedure names are now configurable by
+                      passing other names to the constructor as additional parameters.
+
+      (04-Jan-2009) - Added first test script to check if all methods are working.
+
+                    - Added method "initDBObjects()" which checks for existance
+                      of the table OCI8_CFG_CLASS_TABLE and the procedure
+                      OCI8_CFG_CLASS_SET_CONFIG(). If either of them can't be
+                      found the method auto-creates the missing object.
+                      This method is currently called from the constructor, but
+                      plan is to add some kind of a define to avoid the call to
+                      maximize performance.
+
+                    - Class code now functional.
+
+      (01-Jan-2009) - Initial release. Ported the test functions from one of my
+                      Oracle based projects into a class. Currently the code is
+                      not adapted to work as class code.
+
+-----------------------------------------------------------------------[EOF]-
+$Id: CHANGELOG_config_class,v 1.1 2010/08/07 13:00:48 siegel Exp $
