@@ -7,7 +7,7 @@
  * @subpackage Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 1.00 (07-Aug-2010)
- * $Id: test_save_blob.php,v 1.3 2010/08/07 13:11:41 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

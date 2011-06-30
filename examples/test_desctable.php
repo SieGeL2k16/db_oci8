@@ -7,7 +7,7 @@
  * @subpackage Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 0.1 (02-Dec-2006)
- * $Id: test_desctable.php,v 1.3 2010/08/07 13:11:41 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

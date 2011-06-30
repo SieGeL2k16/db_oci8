@@ -1,7 +1,13 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
 
-V1.01 (20-May-2011) - PHP5: Execute() and ExecuteHash() have now a second parameter
+V1.01 (30-Jun-2011) - Next public release as V1.01 .
+
+                    - Fixed bug in examples/test_inout_vars.php
+
+      (20-Jun-2011) - Added missing outputVar support code to ExecuteHash()
+
+      (20-May-2011) - PHP5: Execute() and ExecuteHash() have now a second parameter
                       which allows to disable automatic error handling. The obsolete
                       class variable "no_exit" is removed.
 
@@ -213,4 +219,4 @@ V0.57 (18-Apr-2005) - Fine-tuned the error handling, it is now possible
 V0.56 (11-Apr-2005) - Added support for phpDocumentor and CVS
 
 -----------------------------------------------------------------------[EOF]-
-$Id: CHANGELOG,v 1.24 2011/05/24 06:07:22 siegel Exp $
+$Id$

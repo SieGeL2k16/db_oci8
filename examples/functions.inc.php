@@ -5,7 +5,7 @@
  * @subpackage Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 1.00 (14-May-2010)
- * $Id: functions.inc.php,v 1.6 2010/08/07 13:11:41 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

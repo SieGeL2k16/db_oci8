@@ -1,5 +1,5 @@
       Documentation for OCI8 Class written by Sascha 'SieGeL' Pfalz
-                      Last Updated: 07-Aug-2010
+                      Last Updated: 30-Jun-2011
 -----------------------------------------------------------------------------
 
 1. INTRODUCTION
@@ -57,7 +57,7 @@ README                -> The file you are currently reading
 ~~~~~~~~~~~~~~~
 To use this class you have to met the following requirements:
 
-- PHP 4/5 (last tested on PHP 5.3.3) - Note that the distribution archive
+- PHP 4/5 (last tested on PHP 5.3.6) - Note that the distribution archive
   now ships PHP 4 AND PHP 5 versions of the class!
 
 - Oracle 8i, 9i, 10g or 11g (last tested on 11gR2)
@@ -118,7 +118,7 @@ DB_REGISTER [optional]
 
 
 DB_NUM_DECIMAL
-DB_NUM_GROUPING [optiona]
+DB_NUM_GROUPING [optional]
 
 - Both flags are required to handle numeric values in localized environments,
   i.e. germans are using the '.' as grouping character and the ',' as decimal
@@ -434,8 +434,14 @@ In fact the same method like Execute() but uses bind vars via an associative
 array to pass the values to Oracle.
 Except the second bindvarhash parameter this method is identical to "Execute()".
 
+Note that since 1.01 you can also use OutputVar functionality in the same
+way you'll use it with "QueryHash()". Useful if you "Prepare()" a lot of
+statements and "ExecuteHash()" them later with the need of Output vars.
+
 See "examples/test_prep_execute.php" for a complete example how to use
 prepared statements with ExecuteHash().
+
+See "examples/test_inout_vars.php" for an example how to use Output Vars.
 
 
 -----------------------------------------------------------------------------
@@ -475,7 +481,7 @@ statement is no longer valid.
 string GetClassVersion ()
 -----------------------------------------------------------------------------
 Returns the class Version. The format of the version string is MAJOR.MINOR
-versionnumber, i.e. "1.00".
+versionnumber, i.e. "1.01".
 
 
 -----------------------------------------------------------------------------
@@ -833,7 +839,7 @@ functions "oci_set_module_name()" and "oci_set_action".
 The value of $module will be set as MODULE name, while the optional $action
 value will be set as Module's current action.
 
-If PHP 5.3.2 is in use, an empty string is returned from this method.
+If PHP 5.3.2+ is in use, an empty string is returned from this method.
 
 In previous versions of PHP 5.3.2 the parameter $returnURL decides what
 will be returned. If set to default value (FALSE) this method will build
@@ -843,7 +849,7 @@ If $returnURL is set to TRUE, the PL/SQL call is build but not send to the
 database, but instead returned to the callee as string.
 
 This method is used in the Connect() method to register the application
-name to oracle during the connect phase.
+name to Oracle during the connect phase.
 
 
 -----------------------------------------------------------------------------
@@ -852,8 +858,8 @@ void SetOutputHash ( array $outputhash)
 Use this call before using "QueryHash()" to pass the output hash variable
 to the class. This is only required if you are using either PL/SQL OUT variables
 or "RETURNING INTO" clauses in your queries.
-After successful completition of "QueryHash()" the results can be retrieved
-by calling "getOutputHash()".
+After successful completition of "QueryHash()" or "ExecuteHash()" the results
+can be retrieved by calling "getOutputHash()".
 
 See examples/test_inout_vars.php for an example how to use this method.
 
@@ -926,4 +932,4 @@ A big thanks must go to the following people:
 
 - DOAG for giving me the opportunity to perform my first speaking about PHP/Oracle
 -----------------------------------------------------------------------[EOF]-
-$Id: README,v 1.10 2010/08/07 13:00:38 siegel Exp $
+$Id$

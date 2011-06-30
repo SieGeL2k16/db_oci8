@@ -5,7 +5,7 @@
  * @package db_oci8
  * @subpackage Testscripts
  * @version 0.77 (26-Dec-2008)
- * $Id: test_general.php,v 1.2 2010/08/07 13:11:41 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

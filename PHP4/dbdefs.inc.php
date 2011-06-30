@@ -6,7 +6,7 @@
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @package db_oci8
  * @version 1.00 (14-May-2010)
- * $Id: dbdefs.inc.php,v 1.1 2010/08/07 13:00:45 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

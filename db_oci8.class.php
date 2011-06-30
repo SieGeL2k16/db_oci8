@@ -7,7 +7,7 @@
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 1.01 (20-May-2011)
- * $Id: db_oci8.class.php,v 1.8 2011/05/24 06:07:22 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */
@@ -1560,7 +1560,7 @@ class db_oci8
    */
   public function SetOutputHash(&$outputhash)
     {
-    $this->output_hash = &$outputhash;
+    $this->output_hash = $outputhash;
     }
 
   /**
@@ -1700,6 +1700,15 @@ class db_oci8
       while(list($key,$val) = each($bindvarhash))
         {
         @oci_bind_by_name($stmt,$key,$bindvarhash[$key],-1);
+        }
+      }
+    if(count($this->output_hash))
+      {
+      reset($this->output_hash);
+      $this->errvars = $this->output_hash;
+      while(list($key,$val) = each($this->output_hash))
+        {
+        @oci_bind_by_name($stmt,$key,$this->output_hash[$key],-1);
         }
       }
     $start = $this->getmicrotime();

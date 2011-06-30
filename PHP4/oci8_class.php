@@ -28,8 +28,8 @@
  * - setConnectRetries() / getConnectRetries()
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 0.78 (28-Mar-2009)
- * $Id: oci8_class.php,v 1.3 2010/08/07 13:00:45 siegel Exp $
+ * @version 0.79 (30-Jun-2011)
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */
@@ -177,7 +177,7 @@ class db_oci8
       {
       include($extconfig);
       }
-    $this->classversion   = '0.78';                   // Version of our class
+    $this->classversion   = '0.79';                   // Version of our class
     $this->host           = '';                       // TNS Name of DB to connect to
     $this->user           = '';                       // Username
     $this->pass           = '';                       // Password
@@ -1698,6 +1698,14 @@ class db_oci8
       while(list($key,$val) = each($bindvarhash))
         {
         @OCIBindByName($stmt,$key,$bindvarhash[$key],-1);
+        }
+      }
+    if(count($this->output_hash))
+      {
+      reset($this->output_hash);
+      while(list($key,$val) = each($this->output_hash))
+        {
+        @OCIBindByName($stmt,$key,$this->output_hash[$key],$val);
         }
       }
     $start = $this->getmicrotime();
