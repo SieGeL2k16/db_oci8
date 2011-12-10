@@ -6,7 +6,7 @@
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.01 (20-May-2011)
+ * @version 1.02 (08-Dec-2011)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
@@ -23,7 +23,7 @@ class db_oci8
    * @private
    * @var string
    */
-  private $classversion = '1.01';
+  private $classversion = '1.02';
 
   /**
    * Internal connection handle.
@@ -557,8 +557,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('Query(): Parse failed!'));
-      exit;
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('Query(): Parse failed!'));
+        exit;
+        }
       }
     if(!@oci_execute($stmt,OCI_DEFAULT))
       {
@@ -627,8 +637,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('QueryHash(): Parse failed!'));
-      exit;
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('QueryHash(): Parse failed!'));
+        exit;
+        }
       }
     if(is_array($bindvarhash))
       {
@@ -717,7 +737,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('QueryResult(): Parse failed!'));
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('QueryResult(): Parse failed!'));
+        exit;
+        }
       }
     // Check if user wishes to set a default prefetching value:
     if(defined('DB_DEFAULT_PREFETCH'))
@@ -764,7 +795,8 @@ class db_oci8
     $start = $this->getmicrotime();
     if(!($stmt = @oci_parse($this->sock,$query)))
       {
-      return($this->Print_Error("QueryResultHash(): Parse failed!"));
+      return($this->Print_Error('QueryResultHash(): Parse failed!'));
+      exit;
       }
     if(is_array($inhash))
       {
@@ -1531,6 +1563,11 @@ class db_oci8
       }
     $start = $this->getmicrotime();
     $stmt = @oci_parse($this->sock,"SELECT * FROM ".$tablename." WHERE ROWNUM < 1");
+    if(!$stmt)
+      {
+      return($this->Print_Error('DescTable(): Parse failed!'));
+      exit;
+      }
     @oci_execute($stmt);
     $this->querycounter++;
     $ncols = @oci_num_fields($stmt);
@@ -1606,7 +1643,8 @@ class db_oci8
       if($no_exit)
         {
         $err = @oci_error($this->sock);
-        $this->sqlerrmsg = $err['message'];
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
         return($err['code']);
         }
       else

@@ -1,5 +1,8 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
+V1.02 (08-Dec-2011) - Added missing error handling in case oci_parse() failed. The
+                      following methods where enhanced:
+                      Query(), QueryResult(), QueryHash(), QueryResultHash()
 
 V1.01 (30-Jun-2011) - Next public release as V1.01 .
 
