@@ -23,7 +23,7 @@ class db_oci8
    * @private
    * @var string
    */
-  private $classversion = '1.02';
+  private $classversion = '1.03';
 
   /**
    * Internal connection handle.
@@ -1780,11 +1780,12 @@ class db_oci8
    * @param string $blob_table Name of Table where the blobfield resides
    * @param string $blob_field Name of BLOB field
    * @param string $where_clause Criteria to get the right row (i.e. WHERE ROWID=ABCDEF12345)
+   * @param array $bind_vars If given can contain bind variable definition used in WHERE clause
    * @return integer If all is okay returns 0 else an oracle error code.
    * @since 0.41
    * @see oci_new_descriptor()
    */
-  public function SaveBLOB($file_to_save, $blob_table, $blob_field, $where_clause)
+  public function SaveBLOB($file_to_save, $blob_table, $blob_field, $where_clause,$bind_vars = null)
     {
     $this->checkSock();
     if($where_clause == '')
@@ -1800,6 +1801,15 @@ class db_oci8
       return($this->Print_Error("SaveBLOB(): Unable to parse query !!!"));
       }
     @oci_bind_by_name($lobstmt, ":oralob", $lobptr, -1, OCI_B_BLOB);
+    if(is_array($bind_vars))
+      {
+      reset($bind_vars);
+      $this->errvars = $bind_vars;
+      while(list($key,$val) = each($bind_vars))
+        {
+        @oci_bind_by_name($lobstmt,$key,$bind_vars[$key],-1);
+        }
+      }
     if(!@oci_execute($lobstmt, OCI_DEFAULT))
       {
       $lobptr->free();
