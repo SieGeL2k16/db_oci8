@@ -6,7 +6,7 @@
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.02 (08-Dec-2011)
+ * @version 1.04 (25-Jul-2013)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
