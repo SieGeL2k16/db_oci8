@@ -1,5 +1,5 @@
       Documentation for OCI8 Class written by Sascha 'SieGeL' Pfalz
-                      Last Updated: 29-Dec-2011
+                      Last Updated: 25-Jul-2013
 -----------------------------------------------------------------------------
 
 1. INTRODUCTION
@@ -910,6 +910,33 @@ Returns Database Versionstring. If no active connection exists when calling
 this function this method connects itself to the database, retrieve the
 version string and disconnects afterwards. If an active connection exists
 this connection is used and of course not terminated.
+
+
+-----------------------------------------------------------------------------
+boolean SetAction ($action)
+-----------------------------------------------------------------------------
+Sets the action name for Oracle tracing.
+
+This method simply call the PHP function oci_set_action() when running on
+PHP 5.3.2 or newer, else TRUE is returned and nothing is done.
+
+
+-----------------------------------------------------------------------------
+boolean SetClientInfo($cinfo)
+-----------------------------------------------------------------------------
+Sets the client information for Oracle tracing.
+
+This method simply call the PHP function oci_set_client_info() when running on
+PHP 5.3.2 or newer, else TRUE is returned and nothing is done.
+
+
+-----------------------------------------------------------------------------
+boolean SetClientIdentifier($identifier)
+-----------------------------------------------------------------------------
+Sets the client identifier for Oracle tracing.
+
+This method simply call the PHP function oci_set_client_info() when running on
+PHP 5.3.2 or newer, else TRUE is returned and nothing is done.
 
 
 

@@ -1,5 +1,10 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
+V1.04 (25-Jul-2013) - Next public release as V1.04
+
+      (30-May-2013) - Added new methods "SetAction()", "SetClientInfo()" and
+                      "SetClientIdentifier()"
+
 V1.03 (06-Jan-2012) - Added bind var support to SaveBLOB() method.
 
 V1.02 (29-Dec-2011) - Next public release as 1.02
