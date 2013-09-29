@@ -1,5 +1,8 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
+V1.05 (25-Aug-2013) - Added Hostname detection via posix_uname() or via
+                      env var HOSTNAME - used for cli based scripts
+
 V1.04 (25-Jul-2013) - Next public release as V1.04
 
       (30-May-2013) - Added new methods "SetAction()", "SetClientInfo()" and
