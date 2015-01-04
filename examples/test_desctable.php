@@ -3,13 +3,10 @@
 /**
  * Testscript for OCI8 Class.
  * Shows how to use the method DescTable().
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 0.1 (02-Dec-2006)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  */

@@ -1,15 +1,11 @@
 #!/usr/local/bin/php
 <?php
 /**
- * Testscript for OCI8 Class.
  * Shows how to Save a binary file as BLOB in Oracle with the SaveBLOB method.
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 1.00 (07-Aug-2010)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  */

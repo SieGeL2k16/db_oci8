@@ -1,15 +1,11 @@
 #!/usr/local/bin/php
 <?php
 /**
- * Testscript for OCI8 Class.
  * Shows how to use IN/OUT variables and calling procedures.
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 1.01 (30-Jun-2011)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  */

@@ -1,13 +1,10 @@
 <?php
 /**
  * Set of functions used in the OCI8 examples.
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts\Include
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.00 (14-May-2010)
- * $Id$
+ * @version 1.0.5 (05-Jan-2015)
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  * Make sure that we get noticed about EVERYTHING problematic in our code:
@@ -84,7 +81,7 @@ function WhichBR()
 /**
  * Prints out the amount of queries and the time required to process them.
  * @param string $lf The linefeed character to use.
- * @param mixed &$dbh The database object.
+ * @param db_oci8 &$dbh The database object.
  */
 function DBFooter($lf, &$dbh)
   {
@@ -94,7 +91,7 @@ function DBFooter($lf, &$dbh)
 /**
  * Checks if given Object name exists inside the database.
  * If checked object does not exist function can auto create the object if required DML is supplied
- * @param mixed &$dbh The database object.
+ * @param db_oci8 &$dbh The database object.
  * @param string $objectname Name of object to check.
  * @param string $dml_sql Required SQL to create the object if it does not exist.
  * @return bool TRUE if Object exists else false.

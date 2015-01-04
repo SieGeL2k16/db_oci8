@@ -2,12 +2,9 @@
 /**
  * Tests general class functions.
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @version 0.77 (26-Dec-2008)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  * Load in the general functions for all tests.

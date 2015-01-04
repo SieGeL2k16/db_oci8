@@ -1,15 +1,11 @@
 #!/usr/local/bin/php
 <?php
 /**
- * Testscript for OCI8 Class.
  * Shows how to use DML commands with the OCI8 class.
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 0.1 (26-Dec-2008)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  */

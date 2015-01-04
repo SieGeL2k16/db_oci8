@@ -4,9 +4,8 @@
  * This class is a wrapper for OCI8 functionality in PHP5.
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
- * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.05 (04-Jan-2015)
+ * @version 1.05
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -16,205 +15,108 @@
  */
 class db_oci8
   {
-  /**
-   * Class version.
-   * @private
-   * @var string
-   */
+  /** @var string $classversion Class version */
   private $classversion = '1.05';
 
-  /**
-   * Internal connection handle.
-   * @access protected
-   * @var resource
-   */
+  /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
 
-  /**
-   * The TNS name of the target database.
-   * @access protected
-   * @var string
-   */
+  /** @var string $host The TNS name of the target database. */
   protected $host = '';
 
-  /**
-   * The username used to connect to database.
-   * @access protected
-   * @var string
-   */
+  /** @var string $user The username used to connect to database. */
   protected $user = '';
 
-  /**
-   * The password used to connect to database.
-   * @access protected
-   * @var string
-   */
+  /** @var string $password The password used to connect to database. */
   protected $password = '';
 
-  /**
-   * The Name of the application using this class.
-   * @access protected
-   * @var string
-   */
+  /** @var string $appname The Name of the application using this class. */
   protected $appname = '';
 
-  /**
-   * Debugstate, default is OFF.
-   * @access protected
-   * @var integer
-   */
+  /** @var integer $debug Debugstate, default is db_oci8::DBOF_DEBUGOFF (off) */
   protected $debug = db_oci8::DBOF_DEBUGOFF;
 
-  /**
-   * How many queries where executed.
-   * @private
-   * @var integer
-   */
+  /** @var integer $querycounter How many queries where executed. */
   private $querycounter = 0;
 
-  /**
-   * Amount of time spent executing class methods.
-   * @private
-   * @var integer
-   */
+  /** @var float $querytime Amount of time spent executing class methods. */
   private $querytime = 0.000;
 
-  /**
-   * If php ini parameter "oci8.privileged_connect" is set or not.
-   * @private
-   * @var boolean
-   */
+  /** @var boolean $php_with_priv_connect If php ini parameter "oci8.privileged_connect" is set or not. */
   private $php_with_priv_connect = FALSE;
-  /**
-   * Set to TRUE if Connect() should use persistant connection, else new one (Default)
-   * @private
-   * @var boolean
-   */
+
+  /** @var boolean $usePConnect Set to TRUE if Connect() should use persistant connection, else new one (Default) */
   private $usePConnect = FALSE;
 
-  /**
-   * How many retries the class should perform when connecting to Oracle.
-   * Defaults to 1 but can be overriden via the OCIDB_CONNECT_RETRIES define or by using the method "setConne
-   * @private
-   * @var integer
-   */
+  /** @var integer $connectRetries How many retries the class should perform when connecting to Oracle. Defaults to 1 but can be overriden via the OCIDB_CONNECT_RETRIES define. */
   private $connectRetries = 1;
 
-  /** The SAPI type of php (used to detect CLI sapi)
-   * @private
-   * @var string
-   */
+  /** @var string $SAPI_type The SAPI type of php (used to detect CLI sapi). */
   private $SAPI_type;
 
-  /**
-   * All passed variables except QUERY and Flags.
-   * @private
-   * @var array
-   */
+  /** @var array $errvars All passed variables except QUERY and Flags. */
   private $errvars = array();
 
-  /**
-   * TRUE if at least PHP 5.3.2 is running, required to set the various client/module/action things.
-   * @private
-   * @var boolean
-   */
+  /** @var boolean $php532 TRUE if at least PHP 5.3.2 is running, required to set the various client/module/action things. */
   private $php532 = FALSE;
 
-  /**
-   * How many Rows where affected by previous DML operation.
-   * @private
-   * @var integer
-   */
+  /** @var integer $AffectedRows How many Rows where affected by previous DML operation. */
   private $AffectedRows = 0;
 
-  /**
-   * Contains possible SQL query that failed.
-   * @internal
-   * @var string
-   */
+  /** @var string $sqlerr Contains possible SQL query that failed. */
   protected $sqlerr = '';
 
-  /** Contains oci_error['message'] info in case of an error.
-   * @internal
-   * @var string
-   */
+  /** @var string $sqlerrmsg Contains oci_error['message'] info in case of an error. */
   protected $sqlerrmsg = '';
 
-  /**
-   * A hash array with all output parameters (used in QueryHash())
-   * @private
-   * @var array
-   */
+  /** @var array $output_hash A hash array with all output parameters (used in QueryHash()). */
   private $output_hash = array();
 
-  /**
-   * Internal SQL cache for Prepare()/Execute().
-   * @private
-   * @var array
-   */
+  /** @var array $sqlcache Internal SQL cache for Prepare()/Execute(). */
   private $sqlcache = array();
 
-  /** How many SQL queries have been executed.
-   * @private
-   * @var integer
-   */
+  /** @var integer $sqlcount How many SQL queries have been executed. */
   private $sqlcount = 0;
 
-  /**
-   * Stores active statement handle.
-   * @private
-   * @var mixed
-   */
+  /** @var resource|null $stmt Stores active statement handle. */
   private $stmt = NULL;
 
-  /**
-   * Holds error mode.
-   * @private
-   * @var integer
-   */
+  /** @var integer $showError Holds error mode. */
   private $showError = db_oci8::DBOF_SHOW_ALL_ERRORS;
 
-  /** DEBUG: No Debug Info */
-  const DBOF_DEBUGOFF           = 1;
-  /** DEBUG: Debug to screen */
-  const DBOF_DEBUGSCREEN        = 2;
-  /** DEBUG: Debug to error.log */
-  const DBOF_DEBUGFILE          = 4;
+  /** DEBUG: No Debug Info. */
+  const DBOF_DEBUGOFF     = 1;
+  /** DEBUG: Debug to screen. */
+  const DBOF_DEBUGSCREEN  = 2;
+  /** DEBUG: Debug to error.log. */
+  const DBOF_DEBUGFILE    = 4;
 
-  /**#@+
-   * These constants are used in DescTable()
-   * @see DescTable()
-   */
-  const DBOF_COLNAME            = 0;
-  const DBOF_COLTYPE            = 1;
-  const DBOF_COLSIZE            = 2;
-  const DBOF_COLPREC            = 3;
-  /**#@-*/
+  /** DescTable(): Column name. */
+  const DBOF_COLNAME  = 0;
+  /** DescTable(): Column type. */
+  const DBOF_COLTYPE  = 1;
+  /** DescTable(): Column size. */
+  const DBOF_COLSIZE  = 2;
+  /** DescTable(): Column precision. */
+  const DBOF_COLPREC  = 3;
 
-  /**#@+
-   * Used for internal Query Cache.
-   */
+  /** Query cache: Entry is a query. */
   const DBOF_CACHE_QUERY        = 0;
+  /** Query cache: Entry is a statement handle. */
   const DBOF_CACHE_STATEMENT    = 1;
-  /**#@-*/
 
-  /**#@+
-   * Connect and error handling.
-   * If NO_ERRORS is set and an error occures, the class still reports an
-   * an error of course but the error shown is reduced to avoid showing
-   * sensible informations in a productive environment.
-   * Set RETURN_ALL_ERRORS if you want to handle errors yourself.
-   */
+  /** Print_Error(): Supress error details. */
   const DBOF_SHOW_NO_ERRORS     = 0;
+  /** Print_Error(): Display all error details. */
   const DBOF_SHOW_ALL_ERRORS    = 1;
+  /** Print_Error(): Return all errors, handle them on your own. */
   const DBOF_RETURN_ALL_ERRORS  = 2;
-  /**#@-*/
 
   /**
    * Constructor of class.
    * @param string $ext_config Pass here the full name to your define file where all external class defines are set. If empty uses "dbdefs.inc.php".
    */
-  public function __construct($ext_config = '')
+  public function __construct($ext_config='')
     {
     // Check first the PHP version, if it is lower than 5.1.2 we abort here:
     if(version_compare(phpversion(), '5.1.2', '<'))
@@ -278,10 +180,7 @@ class db_oci8
    * @param string $use_charset Optional character set to use.
    * @param integer $session_mode Optional the session mode (OCI_SYSOPER/OCI_SYSDBA).
    * @return mixed Either the DB connection handle or an error array/exit, depending how $exit_on_error is set
-   * @see oci_connect()
-   * @see oci_pconnect()
-   * @see dbdefs.inc.php
-   * @see Print_Error()
+   * @see db_oci8::Print_Error()
    */
   public function Connect($user=NULL, $pass=NULL, $host=NULL, $exit_on_error = 1, $use_charset = '', $session_mode = -1)
     {
@@ -385,9 +284,7 @@ class db_oci8
   /**
    * Disconnects from Oracle.
    * You may optionally pass an external link identifier.
-   * @param mixed $other_sock Optionally your own connection handle to close,
-   * else internal socket will be used.
-   * @see oci_close()
+   * @param mixed $other_sock Optionally your own connection handle to close, else internal socket will be used.
    */
   public function Disconnect($other_sock=-1)
     {
@@ -441,7 +338,7 @@ class db_oci8
   /**
    * Checks if we are already connected to our database.
    * If not terminates by calling Print_Error().
-   * @see Print_Error
+   * @see db_oci8::Print_Error()
    */
   private function CheckSock()
     {
@@ -649,9 +546,9 @@ class db_oci8
    * @param array &$bindvarhash The bind vars as associative array (keys = bindvar names, values = bindvar values)
    * @return array The result of the query as either associative or numeric array.
    * In case of an error can be also an assoc. array of error informations.
-   * @see setOutputHash()
-   * @see getOutputHash()
-   * @see clearOutputHash()
+   * @see db_oci8::setOutputHash()
+   * @see db_oci8::getOutputHash()
+   * @see db_oci8::clearOutputHash()
    */
   public function QueryHash($querystring, $resflag = OCI_ASSOC, $no_exit = 0, &$bindvarhash)
     {
@@ -743,10 +640,10 @@ class db_oci8
    * NOTE: Bind Var support is deprecated and no longer supported, use QueryResultHash() instead!
    * @param string $querystring SQL-Statement to be executed
    * @return mixed Returns the statement handle or an error array in case of an error.
-   * @see Query()
-   * @see FetchResult()
-   * @see FreeResult()
-   * @see QueryResultHash()
+   * @see db_oci8::Query()
+   * @see db_oci8::FetchResult()
+   * @see db_oci8::FreeResult()
+   * @see db_oci8::QueryResultHash()
    */
   public function QueryResult($querystring)
     {
@@ -817,8 +714,8 @@ class db_oci8
    * @param string $query The Query to be executed.
    * @param array &$inhash The bind vars as associative array (keys = bindvar names, values = bindvar values)
    * @return mixed Either the statement handle or an error code / calling Print_Error().
-   * @see FetchResult()
-   * @see FreeResult()
+   * @see db_oci8::FetchResult()
+   * @see db_oci8::FreeResult()
    */
   public function QueryResultHash($query,&$inhash)
     {
@@ -871,8 +768,8 @@ class db_oci8
    * @param mixed $extstmt If != -1 then we try to fetch from that passed handle, else the class uses
    * internal saved handle. Useful if you want to perform a lot of different queries.
    * @return array The fetched datarow or NULL if no more data exist.
-   * @see QueryResult()
-   * @see FreeResult()
+   * @see db_oci8::QueryResult()
+   * @see db_oci8::FreeResult()
    */
   public function FetchResult($resflag = OCI_ASSOC,$extstmt = -1)
     {
@@ -897,9 +794,8 @@ class db_oci8
    * cache for the handle and removes it from cache, too.
    * @param mixed $extstmt Optional your external saved handle to be freed.
    * @return mixed The result of oci_free_statement() is returned.
-   * @see QueryResult()
-   * @see FetchResult()
-   * @see oci_free_statement()
+   * @see db_oci8::QueryResult()
+   * @see db_oci8::FetchResult()
    */
   public function FreeResult($extstmt = -1)
     {
@@ -986,7 +882,6 @@ class db_oci8
    * Commits transaction.
    * @param resource $extstmt Optional an external oracle connection resource handle, else the internal one will be used.
    * @return integer The value of oci_commit() is returned.
-   * @see oci_commit()
    */
   public function Commit($extstmt = -1)
     {
@@ -1013,7 +908,6 @@ class db_oci8
    * Rollback transaction.
    * @param resource $extstmt Optional an external oracle connection resource handle, else the internal one will be used.
    * @return integer The value of oci_rollback() is returned.
-   * @see oci_rollback()
    */
   public function Rollback($extstmt = -1)
     {
@@ -1196,7 +1090,7 @@ class db_oci8
    * - db_oci8::DBOF_RETURN_ALL_ERRORS => No error/autoexit, just return the OCI error code.
    * @param integer $val The Error Handling mode you wish to use.
    * @return integer Returns the old value.
-   * @see GetErrorHandling()
+   * @see db_oci8::GetErrorHandling()
    */
   public function SetErrorHandling($val)
     {
@@ -1208,7 +1102,7 @@ class db_oci8
   /**
    * Returns the current error handling mode.
    * @return integer The current error handling mode.
-   * @see SetErrorHandling()
+   * @see db_oci8::SetErrorHandling()
    * @since 1.00
    */
   public function GetErrorHandling()
@@ -1222,7 +1116,7 @@ class db_oci8
    * via the OCIDB_CONNECT_RETRIES define but may be changed run-time
    * also via the "setConnectRetries()" method.
    * @return integer The retry counter value currently set.
-   * @see SetConnectRetries()
+   * @see db_oci8::SetConnectRetries()
    */
   public function GetConnectRetries()
     {
@@ -1235,7 +1129,7 @@ class db_oci8
    * but can be set also run-time via this method.
    * @param integer $retcnt The new number of connect retries.
    * @return integer The previous value
-   * @see GetConnectRetries()
+   * @see db_oci8::GetConnectRetries()
    */
   public function SetConnectRetries($retcnt)
     {
@@ -1319,7 +1213,6 @@ class db_oci8
    * @param integer $rows Amount of rows to be used for prefetching.
    * @param mixed $extstmt Optionally your own statement handle. If you omit this parameter the internal statement handle is used.
    * @return boolean Return value of OCISetPrefetch()
-   * @see oci_set_prefetch()
    */
   function SetPrefetch($rows,$extstmt=-1)
     {
@@ -1348,8 +1241,6 @@ class db_oci8
    * @param mixed $var2dump Optional a variable to be dumped out via print_r()
    * @param integer $exit_on_error If set to default of 1 this function terminates
    * execution of the script by calling exit, else it simply returns.
-   * @see print_r()
-   * @see oci_error()
    */
   public function Print_Error($ustr='',$var2dump=NULL, $exit_on_error = 1)
     {
@@ -1511,7 +1402,7 @@ class db_oci8
    * If OCIDB_SENTMAILONERROR is defined and != 0 the class sent out an error report
    * to the configured email address in case of an error.
    * @param array $errarray The error array from Oracle as returned by getSQLError()
-   * @see GetSQLError()
+   * @see db_oci8::GetSQLError()
    */
   private function SendMailOnError($errarray)
     {
@@ -1594,7 +1485,6 @@ class db_oci8
    * Describes a table by returning an array with all table info.
    * @param string $tablename Name of table you want to describe.
    * @return array A 2-dimensional array with table informations.
-   * @see test_desctable.php
    */
   public function DescTable($tablename)
     {
@@ -1641,7 +1531,7 @@ class db_oci8
    * if you only use the bind variables for input (IN) you do not need to set this.
    * WARNING: You are responsible to clear the array by using clearOutputHash()!
    * @param array &$outputhash The assoc. array to use for bind var return variables
-   * @see GetOutputHash()
+   * @see db_oci8::GetOutputHash()
    */
   public function SetOutputHash(&$outputhash)
     {
@@ -1651,7 +1541,7 @@ class db_oci8
   /**
    * Returns the contents of the output_hash variable.
    * @return array The contents of the internal output_hash variable.
-   * @see SetOutputHash()
+   * @see db_oci8::SetOutputHash()
    */
   public function GetOutputHash()
     {
@@ -1661,8 +1551,8 @@ class db_oci8
   /**
    * Clears the internal output hash array.
    * You are responsible to manage this yourself, the class only uses the variable!
-   * @see SetOutputHash()
-   * @see GetOutputHash()
+   * @see db_oci8::SetOutputHash()
+   * @see db_oci8::GetOutputHash()
    */
   public function ClearOutputHash()
     {
@@ -1676,7 +1566,6 @@ class db_oci8
    * @param string $querystring The Query you want to prepare (can contain bind variables).
    * @param integer $no_exit 1 => Function returns errorcode instead of calling Print_Error() or 0 => Will always call Print_Error()
    * @return mixed Either the statement handle on success or an error code / calling print_error().
-   * @see test_prep_execute.php
    */
   public function Prepare($querystring, $no_exit = 0)
     {
@@ -1718,8 +1607,7 @@ class db_oci8
    * @param mixed $stmt The statement handle to be executed.
    * @return mixed Returns result set read for FetchResult() usage or an error state depending on class setting in case of an error.
    * @param integer $no_exit 1 => Function returns errorcode instead of calling Print_Error() or 0 => Will always call Print_Error()
-   * @see Prepare()
-   * @see test_prep_execute.php
+   * @see db_oci8::Prepare()
    */
   public function Execute($stmt,$no_exit = 0)
     {
@@ -1767,8 +1655,7 @@ class db_oci8
    * @param array &$bindvarhash The bind variables as associative array (key = bindvar name, value = bindvar value).
    * @param integer $no_exit 1 => Function returns errorcode instead of calling Print_Error() or 0 => Will always call Print_Error()
    * @return mixed Returns result set read for FetchResult() usage or an error state depending on class setting in case of an error.
-   * @see Prepare()
-   * @see test_prep_execute.php
+   * @see db_oci8::Prepare()
    */
   public function ExecuteHash($stmt,&$bindvarhash,$no_exit = 0)
     {
@@ -1831,7 +1718,6 @@ class db_oci8
    * @param array $bind_vars If given can contain bind variable definition used in WHERE clause
    * @return integer If all is okay returns 0 else an oracle error code.
    * @since 0.41
-   * @see oci_new_descriptor()
    */
   public function SaveBLOB($file_to_save, $blob_table, $blob_field, $where_clause,$bind_vars = null)
     {

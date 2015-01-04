@@ -1,15 +1,11 @@
 #!/usr/local/bin/php
 <?php
 /**
- * Testscript for OCI8 Class.
  * Shows how to read multiple data rows from Oracle with the QueryResult method.
- * @package db_oci8
- * @subpackage Testscripts
+ * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 0.11 (11-Feb-2007)
- * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 /**
  */

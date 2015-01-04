@@ -1,6 +1,9 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
-V1.05 (04-Jan-2015) - Fixed notice during wrong variable in SaveBLOB()
+V1.05 (04-Jan-2015) - Changed inline documentation to match phpDoc 2
+                      standards.
+
+                    - Fixed notice during wrong variable in SaveBLOB()
 
       (30-Oct-2014) - Returned old showError value in setErrorHandling()
 
