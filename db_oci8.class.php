@@ -6,10 +6,8 @@
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.05 (07-Jan-2013)
- * $Id$
+ * @version 1.05 (04-Jan-2015)
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
  */
 
 /**
@@ -168,6 +166,13 @@ class db_oci8
    * @var mixed
    */
   private $stmt = NULL;
+
+  /**
+   * Holds error mode.
+   * @private
+   * @var integer
+   */
+  private $showError = db_oci8::DBOF_SHOW_ALL_ERRORS;
 
   /** DEBUG: No Debug Info */
   const DBOF_DEBUGOFF           = 1;
@@ -1176,7 +1181,7 @@ class db_oci8
       return("No oerr executable found!");
       }
     $test   = str_replace("-"," ",$dummy[0]);
-    $cmdstr = "NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1; \$ORACLE_HOME/bin/oerr ".$test;
+    $cmdstr = "NLS_LANG=AMERICAN_AMERICA.UTF8; \$ORACLE_HOME/bin/oerr ".$test;
     $data   = @exec($cmdstr,$retdata,$retcode);
     $dummy  = @explode(",",$retdata[0]);     // Oracle stores: 01721, 00000, "..."
     return(@trim(@preg_replace("/\"/","",$dummy[2])));
@@ -1190,11 +1195,14 @@ class db_oci8
    * - db_oci8::DBOF_SHOW_ALL_ERRORS   => Show all errors (useful for development)
    * - db_oci8::DBOF_RETURN_ALL_ERRORS => No error/autoexit, just return the OCI error code.
    * @param integer $val The Error Handling mode you wish to use.
+   * @return integer Returns the old value.
    * @see GetErrorHandling()
    */
   public function SetErrorHandling($val)
     {
+    $old_val = $this->showError;
     $this->showError = $val;
+    return($old_val);
     }
 
   /**
@@ -1864,7 +1872,7 @@ class db_oci8
       }
     $lobptr->free();
     @oci_free_statement($lobstmt);
-    $this->query_counter++;
+    $this->querycounter++;
     $this->querytime+= ($this->getmicrotime() - $start);
     return(0);
     }

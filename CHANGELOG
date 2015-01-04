@@ -1,6 +1,10 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
-V1.05 (25-Aug-2013) - Added Hostname detection via posix_uname() or via
+V1.05 (04-Jan-2015) - Fixed notice during wrong variable in SaveBLOB()
+
+      (30-Oct-2014) - Returned old showError value in setErrorHandling()
+
+      (07-Jan-2013) - Added Hostname detection via posix_uname() or via
                       env var HOSTNAME - used for cli based scripts
 
 V1.04 (25-Jul-2013) - Next public release as V1.04

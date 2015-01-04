@@ -82,7 +82,7 @@ define('DB_DEFAULT_PREFETCH', 10);
  * If this is not set the default address of $_SERVER['SERVER_ADMIN'] is used.
  * @since V1.00
  */
-define('OCIDB_ADMINEMAIL' , "php@saschapfalz.de");
+//define('OCIDB_ADMINEMAIL' , "php@saschapfalz.de");
 
 /**
  * Set this define to 1 if you want auto-emails to be sent whenever an error occures.
