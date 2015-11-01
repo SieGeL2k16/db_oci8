@@ -5,7 +5,7 @@
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.05
+ * @version 1.06
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -16,7 +16,7 @@
 class db_oci8
   {
   /** @var string $classversion Class version */
-  private $classversion = '1.05';
+  private $classversion = '1.06';
 
   /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
@@ -584,7 +584,7 @@ class db_oci8
         exit;
         }
       }
-    if(is_array($bindvarhash))
+    if(@is_array($bindvarhash))
       {
       reset($bindvarhash);
       $this->errvars = $bindvarhash;
@@ -1724,15 +1724,15 @@ class db_oci8
     $this->checkSock();
     if($where_clause == '')
       {
-      return($this->Print_Error("SaveBLOB(): WHERE clause must be non-empty, else ALL rows would be updated!!!"));
+      return($this->Print_Error("SaveBLOB(0): WHERE clause must be non-empty, else ALL rows would be updated!!!"));
       }
     $q1 = "UPDATE ".$blob_table." SET ".$blob_field."=EMPTY_BLOB() ".$where_clause." RETURNING ".$blob_field." INTO :oralob";
     $this->sqlerr = $q1;
     $start = $this->getmicrotime();
-    $lobptr = @oci_new_descriptor($this->sock, OCI_D_LOB);
+    $lobptr = oci_new_descriptor($this->sock, OCI_D_LOB);
     if(!($lobstmt = @oci_parse($this->sock,$q1)))
       {
-      return($this->Print_Error("SaveBLOB(): Unable to parse query !!!"));
+      return($this->Print_Error("SaveBLOB(1): Unable to parse query !!!"));
       }
     @oci_bind_by_name($lobstmt, ":oralob", $lobptr, -1, OCI_B_BLOB);
     if(is_array($bind_vars))
@@ -1746,15 +1746,17 @@ class db_oci8
       }
     if(!@oci_execute($lobstmt, OCI_DEFAULT))
       {
+      $oerr = @oci_error($lobstmt);
       $lobptr->free();
       @oci_free_statement($lobstmt);
-      return($this->Print_Error("SaveBLOB(): Unable to retrieve empty LOB locator !!!"));
+      return($this->Print_Error("SaveBLOB(2): ".$oerr['message']." !!"));
       }
     if(!$lobptr->savefile($file_to_save))
       {
+      $oerr = @oci_error($lobstmt);
       $lobptr->free();
       @oci_free_statement($lobstmt);
-      return($this->Print_Error("SaveBLOB(): Cannot save LOB data !!!"));
+      return($this->Print_Error("SaveBLOB(3): Cannot save LOB data (".$oerr['message'].") !!!"));
       }
     $lobptr->free();
     @oci_free_statement($lobstmt);

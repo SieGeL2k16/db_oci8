@@ -1,5 +1,7 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
 
+V1.06 (22-Mar-2015) - Added OCI8 error codes to SaveBLOB() method.
+
 V1.05 (04-Jan-2015) - Changed inline documentation to match phpDoc 2
                       standards.
 
