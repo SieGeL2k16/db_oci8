@@ -5,7 +5,7 @@
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.06
+ * @version 1.07
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -16,7 +16,7 @@
 class db_oci8
   {
   /** @var string $classversion Class version */
-  private $classversion = '1.06';
+  private $classversion = '1.07';
 
   /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
@@ -1282,6 +1282,8 @@ class db_oci8
     $this->sqlerrmsg = $errstr;
     if($this->showError == db_oci8::DBOF_RETURN_ALL_ERRORS)
       {
+      $this->sqlerr     = $errnum;
+      $this->sqlerrmsg  = $errstr;
       return($errnum);      // Return the error number
       }
     $this->SendMailOnError($earr);
@@ -1329,17 +1331,6 @@ class db_oci8
       else
         {
         $errquery = $sqltext;
-        }
-      if($this->SAPI_type != 'cli')
-        {
-        echo("BACKTRACE: <pre>");
-        debug_print_backtrace();
-        echo("</pre>");
-        }
-      else
-        {
-        echo("BACKTRACE:\n");
-        debug_print_backtrace();
         }
       echo($space."SQL: ".$errquery.$crlf);
       echo($space."POS: ".$sqlerrpos.$crlf);
