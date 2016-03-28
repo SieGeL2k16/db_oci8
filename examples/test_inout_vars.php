@@ -2,9 +2,19 @@
 <?php
 /**
  * Shows how to use IN/OUT variables and calling procedures.
+ * Hint: To use bind vars inside an IN () clause, use this if you're on Oracle 10g or higher:
+ *
+ * SELECT * from <TABLE> WHERE ID IN (:tlist)	-> does not work!
+ *
+ * Solution:
+ *
+ * SELECT * from <TABLE> WHERE ID IN (SELECT TRIM(REGEXP_SUBSTR(:tlist,'[^,]+', 1, LEVEL)) items FROM dual CONNECT BY REGEXP_SUBSTR(:tlist, '[^,]+', 1, LEVEL) IS NOT NULL)
+ *
+ * Just bind the comma-separated list of IDs to ":tlist" and you're fine!
+ *
  * @package db_oci8\Testscripts
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.01 (30-Jun-2011)
+ * @version 1.07 (28-Mar-2016)
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 /**
