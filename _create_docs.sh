@@ -3,7 +3,7 @@
 echo "Removing old docs."
 rm -rf ./docs/*
 echo "Creating class documentation."
-phpdoc run \
+/usr/src/phpDocumentor-2.9.0/bin/phpdoc run \
  --filename dbdefs.inc.php,db_oci8.class.php \
  -i *.png,*.gif,*.jpg,*.sh,*.zip,*.pak,*.html,*.css,*.ico,*.gz,*.js,*.txt,*.sql,*.csv,tests/,PHP4/,contrib/ \
  -t ./docs \

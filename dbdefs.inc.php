@@ -21,7 +21,7 @@ define('OCIDB_USER', 'SCOTT');
 /**
  * The password used for connecting.
  */
-define('OCIDB_PASS', 'TIGER');
+define('OCIDB_PASS', 'tiger');
 
 /**
  * Enter the name of your application here.

@@ -1,5 +1,5 @@
       Documentation for OCI8 Class written by Sascha 'SieGeL' Pfalz
-                      Last Updated: 25-Jul-2013
+                      Last Updated: 03-Feb-2017
 -----------------------------------------------------------------------------
 
 1. INTRODUCTION
@@ -57,7 +57,7 @@ README                -> The file you are currently reading
 ~~~~~~~~~~~~~~~
 To use this class you have to met the following requirements:
 
-- PHP 4/5 (last tested on PHP 5.3.8) - Note that the distribution archive
+- PHP 4/5/7 (last tested on PHP 7.1.1) - Note that the distribution archive
   now ships PHP 4 AND PHP 5 versions of the class!
 
 - Oracle 8i, 9i, 10g or 11g (last tested on 11gR2)

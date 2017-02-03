@@ -1,4 +1,8 @@
-APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 4/5
+APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 5/7
+
+V1.08 (03-Feb-2017) - Next public release as 1.08
+
+                    - Added missing AdminEmail class variable
 
 V1.07 (11-Feb-2016) - Print_error(): If RETURN_ALL_ERRORS is active, set both
                       errstr and errnum to internal class variables before

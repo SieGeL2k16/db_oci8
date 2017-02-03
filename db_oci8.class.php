@@ -5,7 +5,7 @@
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.07
+ * @version 1.08
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -16,7 +16,7 @@
 class db_oci8
   {
   /** @var string $classversion Class version */
-  private $classversion = '1.07';
+  private $classversion = '1.08';
 
   /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
@@ -83,6 +83,10 @@ class db_oci8
 
   /** @var integer $showError Holds error mode. */
   private $showError = db_oci8::DBOF_SHOW_ALL_ERRORS;
+
+  /** @var string $AdminEmail E-Mail address to be shown in error messages */
+  private $AdminEmail = '';
+
 
   /** DEBUG: No Debug Info. */
   const DBOF_DEBUGOFF     = 1;
@@ -1372,7 +1376,10 @@ class db_oci8
       }
     if($this->SAPI_type != 'cli')
       {
-      echo("<br>\nPlease inform <a href=\"mailto:".$this->AdminEmail."\">".$this->AdminEmail."</a> about this problem.");
+      if($this->AdminEmail != "")
+        {
+        echo("<br>\nPlease inform <a href=\"mailto:".$this->AdminEmail."\">".$this->AdminEmail."</a> about this problem.");
+        }
       echo("</code>\n");
       echo("</div>\n");
       echo("<div align=\"right\"><small>PHP V".phpversion()." / OCI8 Class v".$this->classversion."</small></div>\n");
@@ -1380,7 +1387,11 @@ class db_oci8
       }
     else
       {
-      echo("\nPlease inform ".$this->AdminEmail." about this problem.\n\nRunning on PHP V".phpversion()." / OCI8 Class v".$this->classversion."\n");
+      if($this->AdminEmail != "")
+        {
+        echo("\nPlease inform ".$this->AdminEmail." about this problem.\n");
+        }
+      echo("\nRunning on PHP V".phpversion()." / OCI8 Class v".$this->classversion."\n");
       }
     if($exit_on_error)
       {
