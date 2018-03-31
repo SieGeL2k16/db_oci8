@@ -5,7 +5,7 @@
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.08
+ * @version 1.09
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -16,7 +16,7 @@
 class db_oci8
   {
   /** @var string $classversion Class version */
-  private $classversion = '1.08';
+  private $classversion = '1.09';
 
   /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
@@ -592,7 +592,7 @@ class db_oci8
       {
       reset($bindvarhash);
       $this->errvars = $bindvarhash;
-      while(list($key,$val) = each($bindvarhash))
+      foreach($bindvarhash as $key => $val)
         {
         @oci_bind_by_name($stmt,$key,$bindvarhash[$key],-1);
         }
@@ -600,7 +600,7 @@ class db_oci8
     if(count($this->output_hash))
       {
       reset($this->output_hash);
-      while(list($key,$val) = each($this->output_hash))
+      foreach($this->output_hash as $key => $val)
         {
         @oci_bind_by_name($stmt,$key,$this->output_hash[$key],$val);
         }
@@ -740,7 +740,7 @@ class db_oci8
       {
       $this->errvars = $inhash;
       reset($inhash);
-      while(list($key,$val) = each($inhash))
+      foreach($inhash AS $key => $val)
         {
         @oci_bind_by_name($stmt,$key,$inhash[$key],-1);
         }
@@ -980,7 +980,7 @@ class db_oci8
       $errbuf = $crlf.'VARS: ';
       reset($this->errvars);
       $i = 0;
-      while(list($key,$val) = each($this->errvars))
+      foreach($this->errvars as $key => $val)
         {
         if(!is_numeric($key))
           {
@@ -1345,7 +1345,7 @@ class db_oci8
         reset($this->errvars);
         $i = 0;
         $errbuf = '';
-        while(list($key,$val) = each($this->errvars))
+        foreach($this->errvars as $key => $val)
           {
           if(!is_numeric($key))
             {
@@ -1458,7 +1458,7 @@ class db_oci8
       $errbuf = '';
       reset($this->errvars);
       $i = 0;
-      while(list($key,$val) = each($this->errvars))
+      foreach($this->errvars AS $key => $val)
         {
         if(!is_numeric($key))
           {
@@ -1672,7 +1672,7 @@ class db_oci8
       {
       reset($bindvarhash);
       $this->errvars = $bindvarhash;
-      while(list($key,$val) = each($bindvarhash))
+      foreach($bindvarhash AS $key => $val)
         {
         @oci_bind_by_name($stmt,$key,$bindvarhash[$key],-1);
         }
@@ -1681,7 +1681,7 @@ class db_oci8
       {
       reset($this->output_hash);
       $this->errvars = $this->output_hash;
-      while(list($key,$val) = each($this->output_hash))
+      foreach($this->output_hash AS $key => $val)
         {
         @oci_bind_by_name($stmt,$key,$this->output_hash[$key],-1);
         }
@@ -1741,7 +1741,7 @@ class db_oci8
       {
       reset($bind_vars);
       $this->errvars = $bind_vars;
-      while(list($key,$val) = each($bind_vars))
+      foreach($bind_vars AS $key => $val)
         {
         @oci_bind_by_name($lobstmt,$key,$bind_vars[$key],-1);
         }

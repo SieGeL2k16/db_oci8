@@ -1,5 +1,8 @@
 APPLICATION=db_oci8 - Oracle OCI8 Class for PHP 5/7
 
+V1.09 (31-Mar-2018) - Replaced all each() calls with foreach to remove PHP 7.2.x
+                      deprecation warnings
+
 V1.08 (03-Feb-2017) - Next public release as 1.08
 
                     - Added missing AdminEmail class variable
