@@ -54,10 +54,10 @@ define('DB_NUM_GROUPING'  ,',');
 
 /**
  * Modify default error handling mode if you wish.
- * Default is db_oci8::DBOF_SHOW_NO_ERRORS if you omit this parameter.
+ * Default is spfalz\db_oci8::DBOF_SHOW_NO_ERRORS if you omit this parameter.
  * @since V1.0.0
  */
-define('DB_ERRORMODE', db_oci8::DBOF_SHOW_ALL_ERRORS);
+define('DB_ERRORMODE', spfalz\db_oci8::DBOF_SHOW_ALL_ERRORS);
 
 /**
  * You may set a default prefetch value with this define.
@@ -106,4 +106,3 @@ define('OCIDB_CONNECT_RETRIES', 5);
  * @since V1.0.0
  */
 define('OCIDB_CHARSET'  , 'UTF8');
-?>
