@@ -1,5 +1,5 @@
      Changes between the PHP 4 and PHP 5 versions of the OCI8 Class
-                Document last updated on 07-Aug-2010
+                Document last updated on 11-Aug-2018
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As PHP 4 has no longer any support from the core PHP development team it was
@@ -27,21 +27,21 @@ Here's a list of defines that you have to rewrite to let the PHP5 class work:
 
 Old PHP 4 Define             | New PHP 5 class constant
 -----------------------------+-----------------------------------------------
-DBOF_DEBUGOFF                | db_oci8::DBOF_DEBUGOFF
-DBOF_DEBUGSCREEN             | db_oci8::DBOF_DEBUGSCREEN
-DBOF_DEBUGFILE               | db_oci8::DBOF_DEBUGFILE
+DBOF_DEBUGOFF                | \spfalz\db_oci8::DBOF_DEBUGOFF
+DBOF_DEBUGSCREEN             | \spfalz\db_oci8::DBOF_DEBUGSCREEN
+DBOF_DEBUGFILE               | \spfalz\db_oci8::DBOF_DEBUGFILE
                              |
-DBOF_COLNAME                 | db_oci8::DBOF_COLNAME
-DBOF_COLTYPE                 | db_oci8::DBOF_COLTYPE
-DBOF_COLSIZE                 | db_oci8::DBOF_COLSIZE
-DBOF_COLPREC                 | db_oci8::DBOF_COLPREC
+DBOF_COLNAME                 | \spfalz\db_oci8::DBOF_COLNAME
+DBOF_COLTYPE                 | \spfalz\db_oci8::DBOF_COLTYPE
+DBOF_COLSIZE                 | \spfalz\db_oci8::DBOF_COLSIZE
+DBOF_COLPREC                 | \spfalz\db_oci8::DBOF_COLPREC
                              |
-DBOF_CACHE_QUERY             | db_oci8::DBOF_CACHE_QUERY
-DBOF_CACHE_STATEMENT         | db_oci8::DBOF_CACHE_STATEMENT
+DBOF_CACHE_QUERY             | \spfalz\db_oci8::DBOF_CACHE_QUERY
+DBOF_CACHE_STATEMENT         | \spfalz\db_oci8::DBOF_CACHE_STATEMENT
                              |
-DBOF_SHOW_NO_ERRORS          | db_oci8::DBOF_SHOW_NO_ERRORS
-DBOF_SHOW_ALL_ERRORS         | db_oci8::DBOF_SHOW_ALL_ERRORS
-DBOF_RETURN_ALL_ERRORS       | db_oci8::DBOF_RETURN_ALL_ERRORS
+DBOF_SHOW_NO_ERRORS          | \spfalz\db_oci8::DBOF_SHOW_NO_ERRORS
+DBOF_SHOW_ALL_ERRORS         | \spfalz\db_oci8::DBOF_SHOW_ALL_ERRORS
+DBOF_RETURN_ALL_ERRORS       | \spfalz\db_oci8::DBOF_RETURN_ALL_ERRORS
 -----------------------------^-----------------------------------------------
 
 This change requires to have two different dbdefs.inc.php copies available
@@ -93,4 +93,3 @@ Keep up the coding!
 
 Sascha 'SieGeL' Pfalz
 -----------------------------------------------------------------------------
-$Id: PHP4_PHP5_changes.txt,v 1.1 2010/08/07 13:00:38 siegel Exp $

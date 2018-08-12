@@ -1,7 +1,7 @@
 # db_oci8 - Oracle OCI8 Class for PHP 5/7
 
 ### V1.1.0 
-##### 01-Jul-2018
+##### 11-Aug-2018
 - Moved class to namespace spfalz
 - Fixed all warnings from code profiler
 - Prepared class for release on composer

@@ -1,9 +1,9 @@
-      Documentation for OCI8 Class written by Sascha 'SieGeL' Pfalz
-                      Last Updated: 03-Feb-2017
------------------------------------------------------------------------------
+## Documentation for OCI8 Class written by Sascha 'SieGeL' Pfalz
 
-1. INTRODUCTION
-~~~~~~~~~~~~~~~
+Last Updated: 03-Feb-2017
+
+###  INTRODUCTION
+
 This class was mainly created to reduce the code size of complex PHP
 applications that interact with Oracle Databases. Instead of writing down
 always the same procedures like OCILogin()/OCIParse() etc. the class provides
@@ -26,47 +26,37 @@ class, as the PHP 4 is at end-of-life. See also the supplied file
 two versions of this class.
 
 
-1.1 FILES PROVIDED IN THIS RELEASE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### FILES PROVIDED IN THIS RELEASE
+
 The distribution archive contains several directories and files,
 here's an overview of these files:
 
-CHANGELOG             -> Changelog in chronological order
-
-_create_docs.sh       -> Small bash script to create PHPDocumentor docs
-
-dbdefs.inc.php        -> Configuration file for the PHP 5 class
-
-db_oci8.class.php     -> The PHP 5 class
-
-docs/                 -> PHPDocumentor documentation in HTML format
-
-examples/             -> Contains various examples for this class
-
-LICENCE               -> The BSD licence
-
-PHP4/                 -> Contains PHP 4 class + config file
-
-PHP4_PHP5_changes.txt -> Readme explains differences between the PHP 4
-                         and the PHP 5 version of the db_oci8 class.
-
-README                -> The file you are currently reading
+- **CHANGELOG**             -> Changelog in chronological order
+- **_create_docs.sh**       -> Small bash script to create PHPDocumentor docs
+- **dbdefs.inc.php**        -> Configuration file for the PHP 5 class
+- **db_oci8.class.php**     -> The PHP 5 class
+- **docs/**                 -> PHPDocumentor documentation in HTML format
+- **examples/**             -> Contains various examples for this class
+- **LICENCE**               -> The BSD licence
+- **PHP4/**                 -> Contains PHP 4 class + config file
+- **PHP4_PHP5_changes.txt** -> Readme explains differences between the PHP 4 and the PHP 5 version of the db_oci8 class.
+- **README**                -> The file you are currently reading
 
 
-2. REQUIREMENTS
-~~~~~~~~~~~~~~~
-To use this class you have to met the following requirements:
+### REQUIREMENTS
+
+This class require the following components:
 
 - PHP 4/5/7 (last tested on PHP 7.1.1) - Note that the distribution archive
   now ships PHP 4 AND PHP 5 versions of the class!
 
 - Oracle 8i, 9i, 10g or 11g (last tested on 11gR2)
 
-- Optionally the instantclient package (tested with 10g/11g Instantclient)
+- Optionally the instantclient package (tested with 10g/11g/12g Instantclient)
 
 
-3. INSTALLATION AND USAGE
-~~~~~~~~~~~~~~~~~~~~~~~~~
+### INSTALLATION AND USAGE
+
 Copy the supplied class file to a directory of your choice. If you still
 use PHP 4, use the file "PHP4/oci8_class.php", for PHP 5 and newer use the
 file "db_oci8.class.php".
@@ -95,37 +85,36 @@ OCIDB_HOST [optional]
   used on the SQL*Plus connection string should also work here. If your
   environment is correctly configured you can leave out this parameter,
   the ORACLE_SID is then used to connect local to your oracle DB if your
-  PHP runs on the same host as the Database.
+  PHP runs on the same host as the Database. You can also set TWO_TASK to your TNS name in case you use Instantclient.
 
 
 OCIAPPNAME [required]
 
 - Name of your application, mandatory.
   This is used in error messages and also to register this name to Oracle
-  if you set DB_REGISTER = 1
+  if you set `DB_REGISTER = 1`
 
 
 DB_REGISTER [optional]
 
 - When set to 1 the class automatically calls the PL/SQL package
-  DBMS_APPLICATION_INFO.SET_MODULE() to register the name of your application
+  `DBMS_APPLICATION_INFO.SET_MODULE()` to register the name of your application
   to Oracle (OCIAPPNAME define). This is useful to track Queries and stats
   inside Oracle. Set to 0 to disable auto register.
   If you are running PHP 5.3.2 or newer the class won't use anymore the
-  DBMS_APPLICATION_INFO methods,instead the new functions
-  "oci_set_module_name()" and "oci_set_action()" are used. See description
-  of the class method "SetModuleAction()" for details.
+  `DBMS_APPLICATION_INFO` methods,instead the new functions
+  "`oci_set_module_name()`" and "`oci_set_action()`" are used. See description
+  of the class method "`SetModuleAction()`" for details.
 
 
-DB_NUM_DECIMAL
-DB_NUM_GROUPING [optional]
+DB_NUM_DECIMAL / DB_NUM_GROUPING [optional]
 
 - Both flags are required to handle numeric values in localized environments,
   i.e. germans are using the '.' as grouping character and the ',' as decimal
   point, while americans do exactly the opposite. To avoid problems when your
-  application makes use of setlocale() and other locale specific things you
+  application makes use of `setlocale()` and other locale specific things you
   must enter the appropiate characters for your language to use. The class
-  will then issue an ALTER SESSION SET NLS_NUMERIC_CHARACTERS = <xY> after
+  will then issue an `ALTER SESSION SET NLS_NUMERIC_CHARACTERS = <xY>` after
   successfully connecting to the database.
 
 
@@ -145,14 +134,14 @@ DB_ERRORMODE [optional]
 
   You have currently three choices to set here:
 
-  db_oci8::DBOF_SHOW_NO_ERRORS (0)
+  **\spfalz\db_oci8::DBOF_SHOW_NO_ERRORS (0)**
 
    This hides important informations like the query which produced this error.
    Only the OCI error code, the PHP scriptname and the error description
    is shown, everything else is hidden. Useful for productive enviroments.
    This is also the default setting if not configured.
 
-  db_oci8::DBOF_SHOW_ALL_ERRORS (1)
+  **\spfalz\db_oci8::DBOF_SHOW_ALL_ERRORS (1)**
 
     This lists a lot more informations like query etc. Very useful when
     developing a PHP application, as this should easily show where the error
@@ -160,7 +149,7 @@ DB_ERRORMODE [optional]
     normally see (query i.e.), so make sure that you disable this for
     productive environments!
 
-  db_oci8::DBOF_RETURN_ALL_ERRORS (2)
+  **\spfalz\db_oci8::DBOF_RETURN_ALL_ERRORS (2)**
 
     In this mode all errors are returned with their OCI error code, the class
     does not exit nor abort the program execution, you are on your own to
@@ -170,47 +159,47 @@ DB_ERRORMODE [optional]
 
 DB_DEFAULT_PREFETCH [optional]
 
-Allows to set how many rows should be prefetched when querying data. PHP's
+- Allows to set how many rows should be prefetched when querying data. PHP's
 default value is 1 row, you can set your own value here to override the default
 PHP setting.
 
 
 OCIDB_ADMINEMAIL [optional]
 
-Set here a valid email address where you want to have error reports sent to.
+- Set here a valid email address where you want to have error reports sent to.
 To let this work you have to set OCIDB_SENTMAILONERROR = 1. Whenever the
 class encounters an error and automatic error handling is activated, the class
 sends out an email to this address containing the error description. If not
-given and OCIDB_SENTMAILONERROR = 1 the $_SERVER['SERVER_ADMIN'] variable
+given and OCIDB_SENTMAILONERROR = 1 the `$_SERVER['SERVER_ADMIN']` variable
 contents is used as email address.
 
 
 OCIDB_SENTMAILONERROR [optional]
 
-Flag indicating if the class should auto-send emails to the defined EMail
+- Flag indicating if the class should auto-send emails to the defined EMail
 address whenever an error occures. Set it to 1 to enable auto-sending,
 and set it to 0 to disable this behavour.
 
 
 OCIDB_MAIL_EXTRAARGS  [optional]
 
-Use this define to pass additional parameter to the mail() command in
-SendmailOnError(). Some servers might need to set the -f parameter when
+- Use this define to pass additional parameter to the `mail()` command in
+`SendmailOnError()`. Some servers might need to set the -f parameter when
 using PHP's mail() command, and to allow this also here in the class you
 can use this define. Default is unset.
 
 
 OCIDB_USE_PCONNECT [optional]
 
-if set to 1 persistant connections are used, else standard connects are used.
-This can be set also on a script-by-script basis via the method setPConnect().
+- if set to 1 persistant connections are used, else standard connects are used.
+This can be set also on a script-by-script basis via the method `setPConnect()`.
 
 
 OCIDB_CONNECT_RETRIES [optional]
 
-Defines how many connection retries the class should perform before giving up
+- Defines how many connection retries the class should perform before giving up
 with an appropiate error message. This is useful if your connection to the
-database is of bad quality, the class auto-retries the connection up to the
+database is of bad quality. The class auto-retries the connection up to the
 number you define here. Default value is 1, that means that the class will
 only try one connection attempt, if this fails an error is generated. This
 is also the behavour of all previous class versions.
@@ -218,7 +207,7 @@ is also the behavour of all previous class versions.
 
 OCIDB_CHARSET [optional]
 
-Setup a default characterset to be used during the connection. Note that
+- Setup a default characterset to be used during the connection. Note that
 this works Only for Oracle >= 9.2 and PHP 5.1.2+.
 If this define is not set the NLS_LANG environment variable value is used.
 You can also override this when using the connect() method.
@@ -229,41 +218,35 @@ The file dbdefs.inc.php is automatically included by the class once you
 instantiate it the first time. See supplied file for a live example how to
 use these defines.
 
-To use the class you have to require() first the class code, the rest is done
+To use the class you have to `require()` first the class code, the rest is done
 automatically when you first instantiate the class. Normally you may have one
 PHP script which includes several others, here would be the ideal place to put
 the require() statement for the class, i.e.:
 
----[SNIP]---
 
+````
 // ...Your require() statements
 
 require_once("path/to/db_oci8.class.php");
 
 // ..Rest of your code here
-
----[SNIP]---
+````
 
 Once this is done and you have added the proper values in dbdefs.inc.php you
 can now start using the class, this would look like this for example:
 
----[SNIP]---
-
+````
 <?php
 require("db_oci8.class.php");
 
-$db = new db_oci8;
+$db = new \spfalz\db_oci8;
 $db->Connect();
 $mver = $db->Version();
 $db->Disconnect();
 echo("Your Oracle Server is V".$mver);
-?>
+````
 
----[SNAP]---
-
-
-4. METHOD OVERVIEW
-~~~~~~~~~~~~~~~~~~
+### METHOD OVERVIEW
 
 I've provided an auto-generated method overview inside the docs subfolder of
 the distribution archive generated by phpDocumentor.

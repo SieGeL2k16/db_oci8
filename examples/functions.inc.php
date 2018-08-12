@@ -3,7 +3,7 @@
  * Set of functions used in the OCI8 examples.
  * @package db_oci8\Testscripts\Include
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.0.5 (05-Jan-2015)
+ * @version 1.1.0 (11-Aug-2018)
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 /**
@@ -22,10 +22,12 @@ $phpmajor   = intval($phpversion[0]);
 if($phpmajor >= NEW_PHP)
   {
   $class = '../db_oci8.class.php';
+  define('IS_PHP5'  , TRUE);
   }
 else
   {
   $class = '../PHP4/oci8_class.php';
+  define('IS_PHP5'  , FALSE);
   }
 require_once($class);
 
@@ -35,22 +37,25 @@ require_once($class);
  */
 if($phpmajor >= NEW_PHP)
   {
-  define('DBOF_DEBUGOFF'          , db_oci8::DBOF_DEBUGOFF);
-  define('DBOF_DEBUGSCREEN'       , db_oci8::DBOF_DEBUGSCREEN);
-  define('DBOF_DEBUGFILE'         , db_oci8::DBOF_DEBUGFILE);
-  define('DBOF_COLNAME'           , db_oci8::DBOF_COLNAME);
-  define('DBOF_COLTYPE'           , db_oci8::DBOF_COLTYPE);
-  define('DBOF_COLSIZE'           , db_oci8::DBOF_COLSIZE);
-  define('DBOF_COLPREC'           , db_oci8::DBOF_COLPREC);
-  define('DBOF_CACHE_QUERY'       , db_oci8::DBOF_CACHE_QUERY);
-  define('DBOF_CACHE_STATEMENT'   , db_oci8::DBOF_CACHE_STATEMENT);
-  define('DBOF_SHOW_NO_ERRORS'    , db_oci8::DBOF_SHOW_NO_ERRORS);
-  define('DBOF_SHOW_ALL_ERRORS'   , db_oci8::DBOF_SHOW_ALL_ERRORS);
-  define('DBOF_RETURN_ALL_ERRORS' , db_oci8::DBOF_RETURN_ALL_ERRORS);
+  define('DBOF_DEBUGOFF'          , \spfalz\db_oci8::DBOF_DEBUGOFF);
+  define('DBOF_DEBUGSCREEN'       , \spfalz\db_oci8::DBOF_DEBUGSCREEN);
+  define('DBOF_DEBUGFILE'         , \spfalz\db_oci8::DBOF_DEBUGFILE);
+  define('DBOF_COLNAME'           , \spfalz\db_oci8::DBOF_COLNAME);
+  define('DBOF_COLTYPE'           , \spfalz\db_oci8::DBOF_COLTYPE);
+  define('DBOF_COLSIZE'           , \spfalz\db_oci8::DBOF_COLSIZE);
+  define('DBOF_COLPREC'           , \spfalz\db_oci8::DBOF_COLPREC);
+  define('DBOF_CACHE_QUERY'       , \spfalz\db_oci8::DBOF_CACHE_QUERY);
+  define('DBOF_CACHE_STATEMENT'   , \spfalz\db_oci8::DBOF_CACHE_STATEMENT);
+  define('DBOF_SHOW_NO_ERRORS'    , \spfalz\db_oci8::DBOF_SHOW_NO_ERRORS);
+  define('DBOF_SHOW_ALL_ERRORS'   , \spfalz\db_oci8::DBOF_SHOW_ALL_ERRORS);
+  define('DBOF_RETURN_ALL_ERRORS' , \spfalz\db_oci8::DBOF_RETURN_ALL_ERRORS);
+  $db = new \spfalz\db_oci8();
+  }
+else
+  {
+  $db = new db_oci8();
   }
 
-// Now create new instance of the db_oci8 class (both PHP4 / PHP5)
-$db = new db_oci8();
 
 /**
  * Returns an associative array with sapi-type name and required line break char.
@@ -142,4 +147,3 @@ function showTestTable(&$dbh,$d)
     printf("No data in table.%s",$d['LF']);
     }
   }
-?>

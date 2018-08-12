@@ -79,4 +79,4 @@ printf("Result of %d + %d  = %d%s",$val1,$val2,$data['result'],$d['LF']);
 $db->clearOutputHash();
 
 DBFooter($d['LF'].$d['LF'],$db);
-?>
+

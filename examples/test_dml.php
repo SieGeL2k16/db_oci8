@@ -91,4 +91,4 @@ $db->Disconnect();
 DBFooter($d['LF'],$db);
 echo($d['LF']);
 exit;
-?>
+

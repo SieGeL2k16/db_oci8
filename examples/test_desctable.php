@@ -38,4 +38,4 @@ if($d['SAPI'] != 'cli')
   echo("</pre>\n");
   }
 exit;
-?>
+

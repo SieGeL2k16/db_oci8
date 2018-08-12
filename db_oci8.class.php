@@ -5,7 +5,7 @@
  * The old oci8_class.php is intended for PHP4, this class will work ONLY with PHP 5.1.2 or higher.
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.2.0
+ * @version 1.1.0
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  */
 
@@ -13,12 +13,12 @@ namespace spfalz;
 
 /**
  * OCI8 class.
- * @package db_oci8
+ * @package spfalz\db_oci8
  */
 class db_oci8
   {
   /** @var string $classversion Class version */
-  private $classversion = '1.2.0';
+  private $classversion = '1.1.0';
 
   /** @var resource|null $sock Internal connection handle. */
   protected $sock = NULL;
@@ -550,7 +550,7 @@ class db_oci8
    * @see self::getOutputHash()
    * @see self::clearOutputHash()
    */
-  public function QueryHash($querystring, $resflag = OCI_ASSOC, $no_exit = 0, &$bindvarhash)
+  public function QueryHash($querystring, $resflag = OCI_ASSOC, $no_exit = 0, &$bindvarhash = null)
     {
     $querystring        = ltrim($querystring);    // Leading spaces seems to be a problem??
     $resarr             = array();
