@@ -1,0 +1,22 @@
+{
+  "name": "spfalz/db_oci8",
+  "type": "library",
+  "description": "Oracle database class using the OCI8 extension",
+  "keywords": ["oci8","class","database","Oracle"],
+  "homepage": "https://github.com/SieGeL2k16/db_oci8/",
+  "license": "BSD-2-Clause-FreeBSD",
+  "authors": [
+    {
+      "name": "Sascha Pfalz",
+      "email": "php@saschapfalz.de",
+      "homepage": "https://www.saschapfalz.de",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": ["db_oci8.class.php"]
+  },
+  "require": {
+    "php": ">=5.3.2||^7.0"
+  }
+}
